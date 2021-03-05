@@ -1,18 +1,29 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
 
 android {
-    compileSdkVersion 29
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
 
     defaultConfig {
-        applicationId "com.azhimkulov.mojitoapp"
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        applicationId globalConfiguration["androidApplicationId"]
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+        versionCode globalConfiguration["androidVersionCode"]
+        versionName globalConfiguration["androidVersionName"]
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
+        testApplicationId globalConfiguration["testApplicationId"]
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {
@@ -21,16 +32,55 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    def presentationDependencies = rootProject.ext.presentationDependencies
+    def kotlinDependencies = rootProject.ext.kotlinDependencies
+    def presentationTestDependencies = rootProject.ext.presentationTestDependencies
 
+    implementation project(':domain')
+    implementation project(':data')
+
+    implementation kotlinDependencies.kotlinLibrary
+    implementation kotlinDependencies.coreKtx
+
+    kapt presentationDependencies.daggerCompiler
+    implementation presentationDependencies.dagger
+
+    compileOnly presentationDependencies.javaxAnnotation
+    implementation presentationDependencies.rxJava
+    implementation presentationDependencies.rxAndroid
+    implementation presentationDependencies.androidConstraintLayout
+    implementation presentationDependencies.dexter
+
+    implementation presentationDependencies.glide
+    annotationProcessor presentationDependencies.glideCompiler
+    implementation presentationDependencies.lifecycleViewModel
+    implementation presentationDependencies.fragmentKtx
+
+    kapt presentationDependencies.databinding
+    annotationProcessor presentationDependencies.databinding
+
+    androidTestImplementation presentationTestDependencies.mockito
+    androidTestImplementation presentationTestDependencies.dexmaker
+    androidTestImplementation presentationTestDependencies.dexmakerMockito
+    androidTestImplementation presentationTestDependencies.espresso
+    androidTestImplementation presentationTestDependencies.espressoContrib
+    androidTestImplementation presentationTestDependencies.espressoExtension
+    androidTestImplementation presentationTestDependencies.espressoWeb
+    androidTestImplementation presentationTestDependencies.testRules
+    androidTestImplementation presentationTestDependencies.testRunner
+    androidTestImplementation presentationTestDependencies.jUnit4Runner
+    androidTestImplementation presentationTestDependencies.kotlinTestJUnit
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
