@@ -1,7 +1,8 @@
-package com.azhimkulov.mojitoapp
+package com.azhimkulov.mojitoapp.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.azhimkulov.mojitoapp.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

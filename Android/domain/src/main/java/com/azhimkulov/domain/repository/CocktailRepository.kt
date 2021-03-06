@@ -1,7 +1,8 @@
 package com.azhimkulov.domain.repository
 
 import com.azhimkulov.domain.model.CocktailModel
+import io.reactivex.Observable
 
 interface CocktailRepository {
-    fun getRandomCocktail(): CocktailModel
+    fun getRandomCocktail(): Observable<CocktailModel>
 }
