@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MojitoApp</string>
+    <string name="observableFailed_tag">OBSERVABLE_FAILED</string>
+    <string name="defaultThrowable_emptyMessage">Throwable message is empty</string>
+    <string name="userFriendly_errorMessage">Ой! Что-то пошло не так(((</string>
+    <string name="progress_bar_status_text">Идет загрузка</string>
 </resources>

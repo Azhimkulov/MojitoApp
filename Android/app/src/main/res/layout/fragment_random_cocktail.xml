@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.azhimkulov.mojitoapp.view.viewmodel.RandomCocktailViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView_baseImage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/splash_screen_background"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view_designSeparator"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:background="#03A9F4"
+            app:layout_constraintBottom_toBottomOf="@id/textView_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textView_category" />
+
+        <TextView
+            android:id="@+id/textView_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@{viewModel.category}"
+            android:textColor="#2a2d33"
+            android:textSize="25sp"
+            app:layout_constraintStart_toEndOf="@id/view_designSeparator"
+            app:layout_constraintTop_toBottomOf="@id/imageView_baseImage"
+            tools:text="Classic" />
+
+        <TextView
+            android:id="@+id/textView_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@{viewModel.name}"
+            android:textColor="#2a2d33"
+            android:textSize="25sp"
+            android:fontFamily="@font/roboto_bold"
+            app:layout_constraintStart_toStartOf="@id/textView_category"
+            app:layout_constraintTop_toBottomOf="@id/textView_category"
+            tools:text="Mojito" />
+
+        <include
+            layout="@layout/view_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:isLoading="@{viewModel.isLoading()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textColor="#a6a6aa"
+            app:layout_constraintStart_toStartOf="@id/textView_name"
+            app:layout_constraintTop_toBottomOf="@id/textView_name"
+            tools:text="Alcoholic"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
