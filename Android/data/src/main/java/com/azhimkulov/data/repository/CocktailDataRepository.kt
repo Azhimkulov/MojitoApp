@@ -1,8 +1,7 @@
 package com.azhimkulov.data.repository
 
 import com.azhimkulov.data.entity.mapper.CocktailEntityDataMapper
-import com.azhimkulov.data.persistence.realm.source.CryptoDataStoreFactory
-import com.azhimkulov.data.rest.RestClient
+import com.azhimkulov.data.persistence.realm.source.CocktailDataStoreFactory
 import com.azhimkulov.data.utility.network.exception.parser.parseBadRequestWithMessage
 import com.azhimkulov.data.utility.network.exception.parser.parseConnectionLostException
 import com.azhimkulov.domain.model.CocktailModel
@@ -11,16 +10,16 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 
 class CocktailDataRepository constructor(
-    private val cryptoDataStoreFactory: CryptoDataStoreFactory,
+    private val cocktailDataStoreFactory: CocktailDataStoreFactory,
     private val cocktailEntityDataMapper: CocktailEntityDataMapper
 ) : CocktailRepository {
 
     override fun getRandomCocktail(): Observable<CocktailModel> {
-        return cryptoDataStoreFactory
+        return cocktailDataStoreFactory
             .retrieveRemoteDataStore()
             .getRandomCocktail()
             .flatMap {
-                cryptoDataStoreFactory.retrieveLocaleDataStore().saveCocktail(it).andThen(Observable.just(it))
+                cocktailDataStoreFactory.retrieveLocaleDataStore().saveCocktail(it).andThen(Observable.just(it))
             }
             .map {
                 cocktailEntityDataMapper.transform(it)
@@ -34,7 +33,7 @@ class CocktailDataRepository constructor(
     }
 
     override fun getHistory(): Observable<Collection<CocktailModel>> {
-        return cryptoDataStoreFactory
+        return cocktailDataStoreFactory
             .retrieveLocaleDataStore()
             .getHistory()
             .map {
@@ -43,6 +42,6 @@ class CocktailDataRepository constructor(
     }
 
     override fun delete(id: String): Completable {
-        return cryptoDataStoreFactory.retrieveLocaleDataStore().deleteByExternalId(id)
+        return cocktailDataStoreFactory.retrieveLocaleDataStore().deleteByExternalId(id)
     }
 }

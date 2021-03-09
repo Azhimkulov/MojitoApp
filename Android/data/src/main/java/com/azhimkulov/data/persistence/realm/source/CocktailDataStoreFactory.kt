@@ -2,7 +2,7 @@ package com.azhimkulov.data.persistence.realm.source
 
 import javax.inject.Inject
 
-class CryptoDataStoreFactory @Inject constructor(
+class CocktailDataStoreFactory @Inject constructor(
     private val cocktailRemoteDataStore: CocktailRemoteDataStore,
     private val cocktailLocalDataStore: CocktailLocalDataStore
 ) {

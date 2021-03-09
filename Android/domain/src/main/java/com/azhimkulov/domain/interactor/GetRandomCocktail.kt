@@ -13,7 +13,7 @@ class GetRandomCocktail @Inject constructor(
     postExecutionThread: PostExecutionThread
 ): UseCase<CocktailModel, Void>(threadExecutor, postExecutionThread) {
 
-    override fun buildUseCaseObservable(params: Void?): Observable<CocktailModel> {
+    public override fun buildUseCaseObservable(params: Void?): Observable<CocktailModel> {
         return cocktailRepository.getRandomCocktail()
     }
 }
