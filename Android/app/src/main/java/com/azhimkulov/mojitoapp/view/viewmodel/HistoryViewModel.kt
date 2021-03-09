@@ -1,16 +1,21 @@
 package com.azhimkulov.mojitoapp.view.viewmodel
 
+import android.view.View
 import androidx.databinding.ObservableField
+import com.azhimkulov.domain.interactor.DeleteFromHistory
 import com.azhimkulov.domain.interactor.GetCocktailHistory
 import com.azhimkulov.domain.model.CocktailModel
 import com.azhimkulov.domain.model.DefaultObserver
 import com.azhimkulov.mojitoapp.R
 import com.azhimkulov.mojitoapp.model.ToastDuration
 import com.azhimkulov.mojitoapp.view.adapter.UltimateAdapter
+import io.reactivex.observers.DisposableCompletableObserver
 
 class HistoryViewModel(
+    private val deleteFromHistory: DeleteFromHistory,
     private val getCocktailHistory: GetCocktailHistory
-) : LoadingViewModel(), UltimateAdapter.UltimateAdapterDataSource {
+) : LoadingViewModel(), UltimateAdapter.UltimateAdapterDataSource,
+    UltimateAdapter.UltimateAdapterInterceptor {
 
     private val collection = mutableListOf<CocktailModel>()
 
@@ -34,14 +39,30 @@ class HistoryViewModel(
         return collection[position]
     }
 
+    override fun recyclerView(view: View, position: Int) {
+        val model = collection[position]
+        deleteFromHistory.execute(DeleteObserver(), model.id.toString())
+    }
+
     private fun setupAdapter() {
         ultimateAdapter.register(R.layout.row_cocktail, CocktailModel::class.java)
         ultimateAdapter.dataSource = this
+        ultimateAdapter.interceptor = this
     }
 
     private fun getHistory() {
         isLoading.set(true)
         getCocktailHistory.execute(HistoryObserver())
+    }
+
+    private inner class DeleteObserver: DisposableCompletableObserver() {
+        override fun onComplete() {
+            getHistory()
+        }
+
+        override fun onError(e: Throwable) {
+            onObservableFailed(e, getString(R.string.userFriendly_errorMessage))
+        }
     }
 
     private inner class HistoryObserver : DefaultObserver<Collection<CocktailModel>>() {

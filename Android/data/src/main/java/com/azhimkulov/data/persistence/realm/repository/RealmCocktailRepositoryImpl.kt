@@ -14,11 +14,25 @@ class RealmCocktailRepositoryImpl(private val realm: Realm):RealmCocktailReposit
         return realm
             .where(RealmCocktail::class.java)
             .sort("createdDate", Sort.DESCENDING)
+            .limit(10)
             .findAll()
-            .subList(0, COLLECTION_LIMIT)
     }
 
     override fun save(realmCocktail: RealmCocktail) {
+        val count = realm
+            .where(RealmCocktail::class.java)
+            .count()
+
+        if (count >= COLLECTION_LIMIT) {
+            val collection = realm
+                .where(RealmCocktail::class.java)
+                .sort("createdDate", Sort.DESCENDING)
+                .findAll()
+
+            val realmModel = collection.last()
+            realmModel?.deleteFromRealm()
+        }
+
         realm.insertOrUpdate(realmCocktail)
     }
 

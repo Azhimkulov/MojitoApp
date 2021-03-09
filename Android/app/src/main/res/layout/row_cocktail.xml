@@ -7,11 +7,20 @@
         <variable
             name="model"
             type="com.azhimkulov.domain.model.CocktailModel" />
+
+        <variable
+            name="adapter"
+            type="com.azhimkulov.mojitoapp.view.adapter.UltimateAdapter" />
+
+        <variable
+            name="position"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{view -> adapter.onItemClick(view, position)}"
         android:padding="15dp">
 
         <ImageView
