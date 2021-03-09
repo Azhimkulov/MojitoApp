@@ -13,9 +13,9 @@ class RandomCocktailViewModel(
 ): LoadingViewModel(), UltimateAdapter.UltimateAdapterDataSource {
 
     private var isInitialize = false
+    private val ingredients = mutableListOf<IngredientModel>()
 
     val ultimateAdapter = UltimateAdapter.newInstance()
-    private val ingredients = mutableListOf<IngredientModel>()
 
     val isFavorite = ObservableField(false)
     val isLoading = ObservableField(false)
@@ -29,6 +29,7 @@ class RandomCocktailViewModel(
 
     init {
         setupAdapter()
+        retryFailedRequest = { getCocktail() }
     }
 
     override fun onResume() {

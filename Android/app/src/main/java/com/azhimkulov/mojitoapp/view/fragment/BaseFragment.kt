@@ -3,6 +3,7 @@ package com.azhimkulov.mojitoapp.view.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import com.azhimkulov.mojitoapp.internal.di.HasComponent
@@ -27,6 +28,16 @@ abstract class BaseFragment : Fragment() {
                     messageAndDuration.first,
                     messageAndDuration.second
                 )
+            }
+            it.onCollectionLost = {
+                val alert = AlertDialog.Builder(requireContext())
+                    .setTitle("Отсутствие связи")
+                    .setCancelable(false)
+                    .setMessage("Проверьте подключение к интернету и повторите попытку")
+                    .setNegativeButton("Повторить") { _, _ ->
+                        provideLoadingViewModel()?.retryFailedRequest?.invoke()
+                    }
+                alert.show()
             }
             it.context = { context }
         }
