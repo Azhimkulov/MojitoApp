@@ -3,6 +3,7 @@ package com.azhimkulov.mojitoapp.internal.di.component
 import com.azhimkulov.mojitoapp.internal.di.PerActivity
 import com.azhimkulov.mojitoapp.internal.di.module.ActivityModule
 import com.azhimkulov.mojitoapp.internal.di.module.MainModule
+import com.azhimkulov.mojitoapp.view.fragment.HistoryFragment
 import com.azhimkulov.mojitoapp.view.fragment.RandomCocktailFragment
 import com.azhimkulov.mojitoapp.view.fragment.SplashFragment
 import dagger.Component
@@ -15,4 +16,5 @@ import dagger.Component
 interface MainComponent {
     fun inject(splashFragment: SplashFragment)
     fun inject(randomCocktailFragment: RandomCocktailFragment)
+    fun inject(historyFragment: HistoryFragment)
 }

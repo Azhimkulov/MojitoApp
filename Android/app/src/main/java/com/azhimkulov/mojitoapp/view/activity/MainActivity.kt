@@ -6,12 +6,14 @@ import com.azhimkulov.mojitoapp.internal.di.HasComponent
 import com.azhimkulov.mojitoapp.internal.di.component.DaggerMainComponent
 import com.azhimkulov.mojitoapp.internal.di.component.MainComponent
 import com.azhimkulov.mojitoapp.internal.di.module.MainModule
+import com.azhimkulov.mojitoapp.view.fragment.HistoryFragment
 import com.azhimkulov.mojitoapp.view.fragment.RandomCocktailFragment
 import com.azhimkulov.mojitoapp.view.fragment.SplashFragment
 import kotlinx.android.synthetic.main.activity_with_fragment.*
 
 class MainActivity : BaseActivity(),
     SplashFragment.SplashInteractionListener,
+    RandomCocktailFragment.InteractionListener,
     HasComponent<MainComponent> {
     private var mainComponent: MainComponent? = null
 
@@ -40,6 +42,10 @@ class MainActivity : BaseActivity(),
 
     private fun initializeFirstFragment() {
         replaceFragment(container_for_fragment, SplashFragment.newInstance())
+    }
+
+    override fun viewHistoryScreen() {
+        addFragment(container_for_fragment, HistoryFragment.newInstance())
     }
 
     private fun injectActivity() {

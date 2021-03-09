@@ -1,11 +1,13 @@
 package com.azhimkulov.mojitoapp.view.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.LifecycleOwner
 import com.azhimkulov.mojitoapp.R
 import com.azhimkulov.mojitoapp.databinding.FragmentRandomCocktailBinding
 import com.azhimkulov.mojitoapp.internal.di.component.MainComponent
@@ -19,8 +21,13 @@ class RandomCocktailFragment : BaseFragment() {
 
     @Inject
     lateinit var randomCocktailViewModelFactory: RandomCocktailViewModelFactory
-    private val randomCocktailViewModel:RandomCocktailViewModel by activityViewModels { randomCocktailViewModelFactory }
-    private lateinit var binding:FragmentRandomCocktailBinding
+    private val randomCocktailViewModel: RandomCocktailViewModel by activityViewModels { randomCocktailViewModelFactory }
+    private lateinit var binding: FragmentRandomCocktailBinding
+    private var interactionListener: InteractionListener? = null
+
+    interface InteractionListener {
+        fun viewHistoryScreen()
+    }
 
     companion object {
         fun newInstance(): RandomCocktailFragment {
@@ -28,10 +35,20 @@ class RandomCocktailFragment : BaseFragment() {
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is InteractionListener) {
+            interactionListener = context
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getComponent(MainComponent::class.java).inject(this)
         lifecycle.addObserver(randomCocktailViewModel)
+        randomCocktailViewModel.viewHistoryScreen.observe(context as LifecycleOwner) {
+            interactionListener?.viewHistoryScreen()
+        }
     }
 
     override fun onCreateView(

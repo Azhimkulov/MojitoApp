@@ -1,6 +1,9 @@
 package com.azhimkulov.mojitoapp.internal.di.component
 
 import android.content.Context
+import com.azhimkulov.data.persistence.realm.executor.RxRealmExecutorsProvider
+import com.azhimkulov.data.persistence.realm.provider.RealmProvider
+import com.azhimkulov.data.persistence.realm.unit_of_work.factory.RealmUnitOfWorkFactory
 import com.azhimkulov.data.rest.RestClient
 import com.azhimkulov.domain.executor.PostExecutionThread
 import com.azhimkulov.domain.executor.ThreadExecutor
@@ -21,4 +24,7 @@ interface ApplicationComponent {
     fun threadExecutor(): ThreadExecutor
     fun postExecutionThread(): PostExecutionThread
     fun restClient(): RestClient
+    fun rxRealmExecutorsProvider(): RxRealmExecutorsProvider
+    fun realmUnitOfWorkFactory(): RealmUnitOfWorkFactory
+    fun realmProvider(): RealmProvider
 }

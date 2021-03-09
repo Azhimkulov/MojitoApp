@@ -21,7 +21,7 @@ class CocktailRealmEntityDataMapper @Inject constructor(): RealmEntityDataMapper
             realmEntity.externalId!!,
             realmEntity.name!!,
             realmEntity.category!!,
-            realmEntity.type!!,
+            realmEntity.type,
             realmEntity.baseImage!!,
             arrayListOf(),
             arrayListOf()

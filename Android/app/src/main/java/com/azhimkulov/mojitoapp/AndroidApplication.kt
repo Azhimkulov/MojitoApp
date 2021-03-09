@@ -4,6 +4,7 @@ import android.app.Application
 import com.azhimkulov.mojitoapp.internal.di.component.ApplicationComponent
 import com.azhimkulov.mojitoapp.internal.di.component.DaggerApplicationComponent
 import com.azhimkulov.mojitoapp.internal.di.module.ApplicationModule
+import io.realm.Realm
 
 /**
  * Created by azamat  on 3/5/21.
@@ -13,7 +14,12 @@ class AndroidApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
+        initializePersistenceStorage()
         initializeInjector()
+    }
+
+    private fun initializePersistenceStorage() {
+        Realm.init(this)
     }
 
     private fun initializeInjector() {

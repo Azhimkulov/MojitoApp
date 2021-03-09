@@ -1,6 +1,7 @@
 package com.azhimkulov.mojitoapp.view.viewmodel
 
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import com.azhimkulov.domain.interactor.GetRandomCocktail
 import com.azhimkulov.domain.model.CocktailModel
 import com.azhimkulov.domain.model.DefaultObserver
@@ -27,6 +28,8 @@ class RandomCocktailViewModel(
     val name = ObservableField<String>()
     val id = ObservableField<String>()
 
+    val viewHistoryScreen = MutableLiveData<Boolean>()
+
     init {
         setupAdapter()
         retryFailedRequest = { getCocktail() }
@@ -51,6 +54,10 @@ class RandomCocktailViewModel(
 
     fun handleOnFavoriteClicked() {
         isFavorite.set(true)
+    }
+
+    fun handleOnHistoryTapped() {
+        viewHistoryScreen.value = true
     }
 
     fun handleOnLayoutSwiped() {

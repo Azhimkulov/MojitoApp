@@ -2,6 +2,7 @@ package com.azhimkulov.data.persistence.realm.repository
 
 import com.azhimkulov.data.persistence.realm.entity.RealmCocktail
 import io.realm.Realm
+import io.realm.Sort
 
 class RealmCocktailRepositoryImpl(private val realm: Realm):RealmCocktailRepository {
 
@@ -12,7 +13,7 @@ class RealmCocktailRepositoryImpl(private val realm: Realm):RealmCocktailReposit
     override fun get(): Collection<RealmCocktail> {
         return realm
             .where(RealmCocktail::class.java)
-            .sort("createdDate")
+            .sort("createdDate", Sort.DESCENDING)
             .findAll()
             .subList(0, COLLECTION_LIMIT)
     }

@@ -1,14 +1,9 @@
 package com.azhimkulov.mojitoapp.view.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.azhimkulov.domain.interactor.GetRandomCocktail
 import com.azhimkulov.domain.interactor.timer.TimerOptions
 import com.azhimkulov.domain.interactor.timer.TimerUseCaseFactory
-import com.azhimkulov.domain.model.CocktailModel
 import com.azhimkulov.domain.model.DefaultObserver
-import com.azhimkulov.mojitoapp.R
-import com.azhimkulov.mojitoapp.model.ToastDuration
-import io.reactivex.observers.DisposableObserver
 import java.util.concurrent.TimeUnit
 
 class SplashScreenViewModel(

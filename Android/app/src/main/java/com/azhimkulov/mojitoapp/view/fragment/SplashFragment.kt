@@ -18,9 +18,9 @@ class SplashFragment : BaseFragment() {
 
     @Inject
     lateinit var splashScreenViewModelFactory: SplashScreenViewModelFactory
-    private val splashScreenViewModel:SplashScreenViewModel by activityViewModels { splashScreenViewModelFactory }
+    private val splashScreenViewModel: SplashScreenViewModel by activityViewModels { splashScreenViewModelFactory }
 
-    private var interactionListener:SplashInteractionListener? = null
+    private var interactionListener: SplashInteractionListener? = null
 
     interface SplashInteractionListener {
         fun viewRandomCocktailScreen()
