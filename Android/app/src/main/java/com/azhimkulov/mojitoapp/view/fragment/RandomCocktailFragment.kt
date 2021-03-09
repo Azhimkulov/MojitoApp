@@ -12,6 +12,7 @@ import com.azhimkulov.mojitoapp.internal.di.component.MainComponent
 import com.azhimkulov.mojitoapp.view.viewmodel.LoadingViewModel
 import com.azhimkulov.mojitoapp.view.viewmodel.RandomCocktailViewModel
 import com.azhimkulov.mojitoapp.view.viewmodel.factory.RandomCocktailViewModelFactory
+import kotlinx.android.synthetic.main.fragment_random_cocktail.*
 import javax.inject.Inject
 
 class RandomCocktailFragment : BaseFragment() {
@@ -47,6 +48,14 @@ class RandomCocktailFragment : BaseFragment() {
             )
         binding.viewModel = randomCocktailViewModel
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        swipeLayout.setOnRefreshListener {
+            randomCocktailViewModel.handleOnLayoutSwiped()
+        }
     }
 
     override fun provideLoadingViewModel(): LoadingViewModel {

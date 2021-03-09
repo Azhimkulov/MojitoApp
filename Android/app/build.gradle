@@ -59,6 +59,7 @@ dependencies {
     implementation presentationDependencies.dexter
 
     implementation presentationDependencies.glide
+    implementation "com.github.bumptech.glide:okhttp3-integration:4.12.0"
     annotationProcessor presentationDependencies.glideCompiler
     implementation presentationDependencies.lifecycleViewModel
     implementation presentationDependencies.fragmentKtx

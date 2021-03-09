@@ -36,9 +36,13 @@ class SplashScreenViewModel(
     }
 
     private inner class TimerObserver : DefaultObserver<Long>() {
+        override fun onComplete() {
+        }
+
         override fun onNext(t: Long) {
             if (t >= TIME_OUT_IN_SECONDS) {
                 onTimerCompleted.value = true
+                timerUseCase.dispose()
             }
         }
     }

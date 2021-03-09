@@ -1,5 +1,6 @@
 package com.azhimkulov.data.rest
 
+import com.azhimkulov.data.interceptor.ApiResponseInterceptor
 import com.azhimkulov.data.rest.api.CocktailApi
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -24,12 +25,12 @@ class RestClientImpl @Inject constructor(baseUrl: String) : RestClient {
 
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(ApiResponseInterceptor())
             .readTimeout(DEFAULT_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
             .connectTimeout(DEFAULT_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
             .build()
 
         val gson = GsonBuilder()
-            .serializeNulls()
             .create()
 
         this.retrofit = Retrofit.Builder()

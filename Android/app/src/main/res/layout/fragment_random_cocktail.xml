@@ -8,74 +8,144 @@
         <variable
             name="viewModel"
             type="com.azhimkulov.mojitoapp.view.viewmodel.RandomCocktailViewModel" />
+
+        <import type="android.view.View" />
+
+        <import type="android.R" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:setRefreshing="@{viewModel.isRefreshCompleted}">
 
-        <ImageView
-            android:id="@+id/imageView_baseImage"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/splash_screen_background"
-            app:layout_constraintDimensionRatio="H,1:1"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/view_designSeparator"
-            android:layout_width="2dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:background="#03A9F4"
-            app:layout_constraintBottom_toBottomOf="@id/textView_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textView_category" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@{viewModel.category}"
-            android:textColor="#2a2d33"
-            android:textSize="25sp"
-            app:layout_constraintStart_toEndOf="@id/view_designSeparator"
-            app:layout_constraintTop_toBottomOf="@id/imageView_baseImage"
-            tools:text="Classic" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/container_imageLoader"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:loadWithProgress="@{viewModel.baseImage}">
 
-        <TextView
-            android:id="@+id/textView_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@{viewModel.name}"
-            android:textColor="#2a2d33"
-            android:textSize="25sp"
-            android:fontFamily="@font/roboto_bold"
-            app:layout_constraintStart_toStartOf="@id/textView_category"
-            app:layout_constraintTop_toBottomOf="@id/textView_category"
-            tools:text="Mojito" />
+                    <ImageView
+                        android:id="@+id/imageView_baseImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-            layout="@layout/view_progress"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:isLoading="@{viewModel.isLoading()}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:textColor="#a6a6aa"
-            app:layout_constraintStart_toStartOf="@id/textView_name"
-            app:layout_constraintTop_toBottomOf="@id/textView_name"
-            tools:text="Alcoholic"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="20dp"
+                    android:onClick="@{view -> viewModel.handleOnFavoriteClicked()}"
+                    app:favoriteIcon="@{viewModel.isFavorite()}"
+                    app:layout_constraintBottom_toTopOf="@id/textView_category"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <View
+                    android:id="@+id/view_designSeparator"
+                    android:layout_width="2dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:background="#03A9F4"
+                    app:layout_constraintBottom_toBottomOf="@id/textView_name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/textView_category" />
+
+                <TextView
+                    android:id="@+id/textView_category"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@{viewModel.category}"
+                    android:textColor="#2a2d33"
+                    android:textSize="25sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/view_designSeparator"
+                    app:layout_constraintTop_toBottomOf="@id/container_imageLoader"
+                    tools:text="Classic" />
+
+                <TextView
+                    android:id="@+id/textView_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@{viewModel.name}"
+                    android:textColor="#2a2d33"
+                    android:textSize="25sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/textView_category"
+                    app:layout_constraintTop_toBottomOf="@id/textView_category"
+                    tools:text="Mojito" />
+
+                <TextView
+                    android:id="@+id/textView_type"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@{viewModel.type}"
+                    android:textColor="#a6a6aa"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/textView_name"
+                    app:layout_constraintTop_toBottomOf="@id/textView_name"
+                    tools:text="Alcoholic" />
+
+                <TextView
+                    android:id="@+id/textView_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@{viewModel.id}"
+                    android:textColor="#EFEFEF"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toBottomOf="@id/container_imageLoader"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="12341231" />
+
+                <com.azhimkulov.mojitoapp.view.custom.UltimateRecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingBottom="10dp"
+                    app:adapter="@{viewModel.ultimateAdapter}"
+                    app:layout_constraintTop_toBottomOf="@id/textView_type" />
+
+                <include
+                    layout="@layout/view_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:isLoading="@{viewModel.isLoading()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>
