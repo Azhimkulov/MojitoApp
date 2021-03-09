@@ -41,7 +41,13 @@ class HistoryViewModel(
 
     override fun recyclerView(view: View, position: Int) {
         val model = collection[position]
-        deleteFromHistory.execute(DeleteObserver(), model.id.toString())
+        when(view.id) {
+            R.id.imageView_delete ->
+                deleteFromHistory.execute(DeleteObserver(), model.id.toString())
+            R.id.containerView -> {
+                showToast(model.id.toString(), ToastDuration.LONG)
+            }
+        }
     }
 
     private fun setupAdapter() {

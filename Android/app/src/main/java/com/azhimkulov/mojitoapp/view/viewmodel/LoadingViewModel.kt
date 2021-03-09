@@ -2,15 +2,15 @@ package com.azhimkulov.mojitoapp.view.viewmodel
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.azhimkulov.data.exception.ConnectionLostException
 import com.azhimkulov.mojitoapp.R
 import com.azhimkulov.mojitoapp.exception.ErrorMessageFactory
+import com.azhimkulov.mojitoapp.helper.livedata.SingleLiveEvent
 import com.azhimkulov.mojitoapp.model.ToastDuration
 
 abstract class LoadingViewModel : LifecycleObserverViewModel() {
 
-    val setToast = MutableLiveData<Pair<String, ToastDuration>>()
+    val setToast = SingleLiveEvent<Pair<String, ToastDuration>>()
     var retryFailedRequest: (() -> Unit)? = null
     lateinit var onCollectionLost: () -> Unit
     lateinit var context: () -> Context?
@@ -32,6 +32,7 @@ abstract class LoadingViewModel : LifecycleObserverViewModel() {
 
     fun showToast(message: String, duration: ToastDuration) {
         setToast.value = Pair(message, duration)
+        setToast.call()
     }
 
     protected fun getString(resourceId: Int): String {
