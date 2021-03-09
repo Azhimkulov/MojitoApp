@@ -24,7 +24,7 @@ class SplashScreenViewModel(
     companion object {
         private const val TIMER_DELAY_IN_SECONDS = 0L
         private const val TIMER_UPDATE_IN_SECONDS = 1L
-        private const val TIME_OUT_IN_SECONDS = 5L
+        private const val TIME_OUT_IN_SECONDS = 3L
     }
 
     override fun onResume() {

@@ -6,6 +6,6 @@ data class CocktailEntity(
     val strCategory:String,
     val strTags:String?,
     val strDrinkThumb:String,
-    val ingredients:Array<String?>,
-    val measures: Array<String?>
+    val ingredients:ArrayList<String?>,
+    val measures: ArrayList<String?>
 )
